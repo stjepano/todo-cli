@@ -101,7 +101,17 @@ var todo = new TodoContainer(function (err) {
      * @type {{create: create, list: list, opened: opened, closed: closed, reopen: reopen, help: help, close: close, clear: clear}}
      */
     var commands = {
+        init: function() {
+            if (todo.isInitialized()) {
+                return render(chalk.hex('#84312c').dim("Todo already initialized in this directory."));
+            }
+
+            todo.init();
+        },
         create: function () {
+            if (!todo.isInitialized()) {
+                return render(chalk.hex('#84312c').dim("Todo not initialized in this directory."));
+            }
             if (!process.argv[3]) {
                 return render(chalk.hex('#84312c').dim("Todo can't be empty! Ex: todo create \"This is my todo\" "));
             }
@@ -110,18 +120,30 @@ var todo = new TodoContainer(function (err) {
             todo.save();
         },
         list: function (callback) {
+            if (!todo.isInitialized()) {
+                return render(chalk.hex('#84312c').dim("Todo not initialized in this directory."));
+            }
             mainOptions.set('todoTitle', 'All todos');
             todo.filter({}, callback);
         },
         opened: function (callback) {
+            if (!todo.isInitialized()) {
+                return render(chalk.hex('#84312c').dim("Todo not initialized in this directory."));
+            }
             todo.filter({"state": "OPEN"}, callback);
         },
         closed: function (callback) {
+            if (!todo.isInitialized()) {
+                return render(chalk.hex('#84312c').dim("Todo not initialized in this directory."));
+            }
             mainOptions.set('todoTitle', 'Closed todos');
             var filter = JSON.parse("{ \"state\": \"CLOSED\" }");
             todo.filter(filter, callback);
         },
         reopen: function () {
+            if (!todo.isInitialized()) {
+                return render(chalk.hex('#84312c').dim("Todo not initialized in this directory."));
+            }
             var todos = getTodoArgument(process.argv);
             if (todos === 'all') {
                 todo.reopenAll();
@@ -137,6 +159,9 @@ var todo = new TodoContainer(function (err) {
             render(require("../help.js"));
         },
         close: function () {
+            if (!todo.isInitialized()) {
+                return render(chalk.hex('#84312c').dim("Todo not initialized in this directory."));
+            }
             var todos = getTodoArgument(process.argv);
 
             if (todos === 'all') {
