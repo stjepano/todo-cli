@@ -8,7 +8,7 @@ This is fork of https://github.com/druc/todo-cli that stores todos in local dire
 
 ## Usage
 `todo` - lists opened todos  
-`todo init` - initialize todos in CWD, *this must be executed before any other todo manipulation command*
+`todo init` - initialize todos in CWD, this must be executed before any other todo manipulation command
 `todo <todo>` - creates a new todo. Example: `todo create "Fix signup form validation."`  
 `todo close <id1,id2,id3...>` - marks a todo(s) as closed.  
 `todo close all` - close all todos    
